@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Odd Or Even Week?</title>
+    <style>
+        *, html {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: rgba(0,0,0,.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        .results {
+            background-color: #F3C68E;
+            padding: 2rem 4rem;
+            margin: 0 0 1rem 0;
+            border-radius: 6px;
+            box-shadow: -4px 6px 21px -1px rgba(0,0,0,0.75);
+            -webkit-box-shadow: -4px 6px 21px -1px rgba(0,0,0,0.75);
+            -moz-box-shadow: -4px 6px 21px -1px rgba(0,0,0,0.75);
+        }
+
+        #even-odd {
+            font-size: 8rem;
+            font-weight: bold;
+        }
+
+        #week-number {
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="results">
+            <div id="even-odd"></div>
+            <div id="week-number"></div>
+        </div>
+        <h1>Odd or Even Week?</h1>
+    </main>
+    <script type="text/javascript">
+        // Solution from @RobG
+        // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
+        Date.prototype.getWeekNumber = function(){
+            const d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+        }
+
+        // Real hardcore implementation
+        const today = new Date()
+        const weekNumber = today.getWeekNumber()
+        const isEven = weekNumber % 2 === 0
+        document.querySelector('body').style.backgroundColor = isEven ? '#C3F5DB' : '#CFC5FF'
+        document.querySelector('#even-odd').innerHTML = isEven ? 'Even' : 'Odd'
+        document.querySelector('#week-number').innerHTML = '#' + weekNumber
+    </script>
+</body>
+</html>
